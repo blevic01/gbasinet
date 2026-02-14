@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gbasinet Gaming</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f0f0f;
+    color:white;
+}
+
+header{
+    background:#1a1a1a;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+nav button{
+    margin:5px;
+    padding:8px 12px;
+}
+
+.section{
+    padding:20px;
+    display:none;
+}
+
+.active{
+    display:block;
+}
+
+.game-box{
+    background:#1e1e1e;
+    padding:15px;
+    border-radius:15px;
+    margin:10px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,80px);
+    gap:5px;
+    justify-content:center;
+}
+
+.cell{
+    width:80px;
+    height:80px;
+    background:#333;
+    font-size:30px;
+    line-height:80px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.category{
+    background:#222;
+    padding:15px;
+    margin:10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+#ad{
+    background:orange;
+    color:black;
+    padding:10px;
+    text-align:center;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<h2>🎮 Gbasinet Gaming</h2>
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('games')">Games</button>
+<button onclick="show('about')">About</button>
+</nav>
+</header>
+
+<div id="ad">
+🔥 Advertisement: Play Gbasinet – The Future of African Gaming 🔥
+</div>
+
+<!-- LOGIN -->
+<div id="home" class="section active">
+<h3>Login</h3>
+<input type="text" id="user" placeholder="Username"><br><br>
+<input type="password" id="pass" placeholder="Password"><br><br>
+<button onclick="login()">Login</button>
+</div>
+
+<!-- GAMES -->
+<div id="games" class="section">
+
+<h3>Game Categories</h3>
+
+<div class="category" onclick="alert('Tap Games Coming Soon')">
+🎯 Tap Games
+</div>
+
+<div class="category" onclick="alert('Audio Games Coming Soon')">
+🔊 Audio Games
+</div>
+
+<div class="category" onclick="alert('3D Games Require Hosting')">
+🕹 3D Games
+</div>
+
+<div class="category" onclick="alert('Online Shooting Requires Server')">
+🔫 Shooting Games
+</div>
+
+<h3>Tic Tac Toe</h3>
+<div class="grid" id="board"></div>
+<p id="winner"></p>
+
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="section">
+<h3>About Gbasinet</h3>
+<p>
+Gbasinet Gaming Platform is created by Favour.
+Built to become Africa's next big gaming hub.
+Multiplayer, Online Games, AI & More.
+</p>
+</div>
+
+<script>
+
+// Navigation
+function show(id){
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+// Simple login demo
+function login(){
+    let u=document.getElementById("user").value;
+    if(u){
+        alert("Welcome "+u);
+        show("games");
+    }
+}
+
+// TIC TAC TOE WITH WIN LOGIC
+let board=document.getElementById("board");
+let cells=[];
+let current="X";
+
+for(let i=0;i<9;i++){
+    let cell=document.createElement("div");
+    cell.className="cell";
+    cell.onclick=function(){
+        if(this.innerText==""){
+            this.innerText=current;
+            checkWin();
+            current=(current=="X")?"O":"X";
+        }
+    };
+    board.appendChild(cell);
+    cells.push(cell);
+}
+
+function checkWin(){
+    let combos=[
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+    ];
+
+    combos.forEach(c=>{
+        let a=cells[c[0]].innerText;
+        let b=cells[c[1]].innerText;
+        let d=cells[c[2]].innerText;
+
+        if(a!="" && a==b && b==d){
+            document.getElementById("winner").innerText=a+" Wins!";
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>

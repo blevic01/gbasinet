@@ -1,0 +1,263 @@
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AgbasiNet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url("background.jpg") no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            color: white;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.5);
+            height: 100vh;
+            padding-top: 120px;
+        }
+
+        .logo {
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 60%;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            background: #ffffff;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #dddddd;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 15px;
+            width: 100%;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <div class="logo">AgbasiNet</div>
+
+    <form action="https://www.google.com/search" method="GET">
+        <input type="text" name="q" placeholder="Search the web..." required>
+        <br>
+        <button type="submit">Search</button>
+    </form>
+
+</div>
+
+<footer>
+    © 2026 AgbasiNet | Created by Favour Agbasi Chukwuemeka
+</footer>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgbasiNet</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    text-align:center;
+    transition:0.5s;
+}
+
+.light{
+    background:#ffffff;
+    color:#000;
+}
+
+.dark{
+    background:#121212;
+    color:#fff;
+}
+
+.logo{
+    font-size:45px;
+    margin-top:50px;
+    font-weight:bold;
+}
+
+input{
+    width:70%;
+    padding:12px;
+    border-radius:25px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    margin:5px;
+}
+
+.search-btn{
+    background:#4285F4;
+    color:white;
+}
+
+.mode-btn{
+    background:#333;
+    color:white;
+}
+
+.games{
+    margin-top:30px;
+}
+
+.game-card{
+    margin:10px;
+    padding:10px;
+    border:1px solid gray;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body class="light">
+
+<div class="logo">AgbasiNet</div>
+
+<!-- LOGIN -->
+<div id="loginBox">
+    <h3>Login</h3>
+    <input type="email" id="email" placeholder="Enter Gmail"><br><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" style="display:none;">
+
+<form action="https://www.google.com/search" method="GET">
+    <input type="text" id="searchInput" name="q" placeholder="Search anything...">
+    <br><br>
+    <button class="search-btn" type="submit">Search</button>
+    <button type="button" onclick="voiceSearch()">🎤</button>
+</form>
+
+<br>
+<button class="mode-btn" onclick="toggleMode()">Toggle Dark/Light</button>
+
+<!-- GAME SECTION -->
+<div class="games">
+    <h3>Game Selection</h3>
+
+    <div class="game-card">
+        <p>Play Snake Game</p>
+        <a href="https://playsnake.org/" target="_blank">
+            <button>Play</button>
+        </a>
+    </div>
+
+    <div class="game-card">
+        <p>Play Tetris</p>
+        <a href="https://tetris.com/play-tetris" target="_blank">
+            <button>Play</button>
+        </a>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+function login(){
+    let email = document.getElementById("email").value;
+    if(email !== ""){
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("mainContent").style.display="block";
+    } else {
+        alert("Enter Gmail first!");
+    }
+}
+
+function toggleMode(){
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+}
+
+function voiceSearch(){
+    if('webkitSpeechRecognition' in window){
+        let recognition = new webkitSpeechRecognition();
+        recognition.start();
+        recognition.onresult = function(event){
+            document.getElementById("searchInput").value =
+            event.results[0][0].transcript;
+        }
+    } else {
+        alert("Voice not supported in this browser");
+    }
+}
+</script>
+
+</body>
+</html>
+<script type="module">
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+import { getAuth, signInWithEmailAndPassword } from 
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+function login(email, password){
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => alert("Login successful"))
+    .catch((error) => alert(error.message));
+}
+</script>
+fetch("https://api.openai.com/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    model: "gpt-4o-mini",
+    messages: [{role:"user",content:"Hello"}]
+  })
+})    

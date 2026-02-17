@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GBASIMET Calculator</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#141e30,#243b55);
+    font-family:Arial;
+}
+
+.calculator{
+    background:#1c1c1c;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.5);
+    width:320px;
+}
+
+.display{
+    background:black;
+    color:#00ff99;
+    font-size:32px;
+    padding:20px;
+    text-align:right;
+    border-radius:10px;
+    margin-bottom:15px;
+    overflow:hidden;
+}
+
+.buttons{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:10px;
+}
+
+button{
+    padding:20px;
+    font-size:20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#333;
+    color:white;
+    transition:0.2s;
+}
+
+button:hover{
+    background:#555;
+}
+
+.operator{
+    background:#ff9500;
+}
+
+.operator:hover{
+    background:#ffa733;
+}
+
+.equal{
+    background:#00c853;
+    grid-column: span 2;
+}
+
+.equal:hover{
+    background:#00e676;
+}
+
+.clear{
+    background:#d50000;
+}
+
+.clear:hover{
+    background:#ff1744;
+}
+
+.back-btn{
+    margin-top:15px;
+    width:100%;
+    background:#2196f3;
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+
+<div id="display" class="display">0</div>
+
+<div class="buttons">
+
+<button class="clear" onclick="clearDisplay()">C</button>
+<button onclick="deleteLast()">DEL</button>
+<button class="operator" onclick="append('/')">÷</button>
+<button class="operator" onclick="append('*')">×</button>
+
+<button onclick="append('7')">7</button>
+<button onclick="append('8')">8</button>
+<button onclick="append('9')">9</button>
+<button class="operator" onclick="append('-')">−</button>
+
+<button onclick="append('4')">4</button>
+<button onclick="append('5')">5</button>
+<button onclick="append('6')">6</button>
+<button class="operator" onclick="append('+')">+</button>
+
+<button onclick="append('1')">1</button>
+<button onclick="append('2')">2</button>
+<button onclick="append('3')">3</button>
+<button onclick="append('.')">.</button>
+
+<button onclick="append('0')">0</button>
+<button class="equal" onclick="calculate()">=</button>
+
+</div>
+
+<button class="back-btn" onclick="location.href='index.html'">⬅ Back Home</button>
+
+</div>
+
+<script>
+
+let display = document.getElementById("display");
+
+function append(value){
+    if(display.innerText === "0"){
+        display.innerText = value;
+    } else {
+        display.innerText += value;
+    }
+}
+
+function clearDisplay(){
+    display.innerText = "0";
+}
+
+function deleteLast(){
+    display.innerText = display.innerText.slice(0,-1);
+    if(display.innerText === ""){
+        display.innerText = "0";
+    }
+}
+
+function calculate(){
+    try{
+        display.innerText = eval(display.innerText);
+    }catch{
+        display.innerText = "Error";
+    }
+}
+
+</script>
+
+</body>
+</html>

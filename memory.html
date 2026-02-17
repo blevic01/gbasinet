@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Memory Game - GBASIMET</title>
+<style>
+body { text-align:center; margin:0; font-family:Arial; background-image:url('https://wallpaperaccess.com/full/3175017.jpg'); background-size:cover; color:white;}
+h1{margin-top:20px; text-shadow:2px 2px #000;}
+#memory { display:grid; grid-template-columns: repeat(4, 80px); gap:10px; justify-content:center; margin-top:20px;}
+button{ margin:10px; padding:10px 20px; font-size:16px; border-radius:8px; cursor:pointer;}
+.card{ width:80px; height:80px; font-size:36px; background-color:rgba(0,0,0,0.7); border-radius:8px; cursor:pointer;}
+</style>
+</head>
+<body>
+<h1>Memory Game</h1>
+<div id="memory"></div>
+<button onclick="startGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+const memoryDiv=document.getElementById('memory');
+let cards=['🍎','🍌','🍇','🍉','🍓','🥝','🍍','🍑'];
+let picked=[], matched=0;
+let flipSound = new Audio("https://www.soundjay.com/button/sounds/button-3.mp3");
+
+function startGame(){
+    memoryDiv.innerHTML='';
+    picked=[]; matched=0;
+    let deck = cards.concat(cards).sort(()=>0.5-Math.random());
+    deck.forEach((emoji,i)=>{
+        const card = document.createElement('div');
+        card.className='card'; card.textContent='❓';
+        card.onclick=()=>flip(card,emoji);
+        memoryDiv.appendChild(card);
+    });
+}
+startGame();
+
+function flip(card,emoji){
+    if(card.textContent==='❓' && picked.length<2){
+        card.textContent=emoji; picked.push({card,emoji}); flipSound.play();
+        if(picked.length===2){
+            setTimeout(()=>{
+                if(picked[0].emoji===picked[1].emoji){
+                    picked[0].card.style.visibility='hidden';
+                    picked[1].card.style.visibility='hidden';
+                    matched++;
+                    if(matched===cards.length) alert("You Won!");
+                }else{
+                    picked[0].card.textContent='❓';
+                    picked[1].card.textContent='❓';
+                }
+                picked=[];
+            },500);
+        }
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Color Match - GBASIMET</title>
+<style>
+body{text-align:center;margin:0;font-family:Arial;background-image:url('https://wallpaperaccess.com/full/3175017.jpg');background-size:cover;color:white;}
+h1{margin-top:20px;text-shadow:2px 2px #000;}
+button{margin:10px;padding:10px 20px;font-size:16px;border-radius:8px;cursor:pointer;}
+#colorBox{width:200px;height:200px;margin:20px auto; border:2px solid white; cursor:pointer;}
+</style>
+</head>
+<body>
+<h1>Color Match</h1>
+<div id="colorBox"></div>
+<p id="info"></p>
+<button onclick="startGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+const box=document.getElementById('colorBox');
+const info=document.getElementById('info');
+const colors=['red','green','blue','yellow','orange','purple'];
+let startTime, aiTime=500;
+
+function startGame(){ nextColor(); }
+
+function nextColor(){
+    let c=colors[Math.floor(Math.random()*colors.length)];
+    box.style.backgroundColor=c;
+    info.textContent='Click when the color is '+c;
+    startTime=Date.now();
+}
+
+box.onclick=function(){
+    let time=Date.now()-startTime;
+    let aiReaction=aiTime+Math.random()*200; // AI very fast
+    alert("Your reaction: "+time+"ms | AI reaction: "+aiReaction.toFixed(0)+"ms");
+    nextColor();
+}
+</script>
+</body>
+</html>

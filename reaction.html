@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reaction Test - GBASIMET</title>
+<style>
+body{text-align:center;margin:0;font-family:Arial;background-image:url('https://wallpaperaccess.com/full/3175017.jpg');background-size:cover;color:white;}
+h1{margin-top:20px;text-shadow:2px 2px #000;}
+#testBox{width:200px;height:200px;margin:50px auto; background:red; cursor:pointer;}
+button{margin:10px;padding:10px 20px;font-size:16px;border-radius:8px;cursor:pointer;}
+</style>
+</head>
+<body>
+<h1>Reaction Test</h1>
+<div id="testBox"></div>
+<p id="info"></p>
+<button onclick="startGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+const box=document.getElementById('testBox');
+const info=document.getElementById('info');
+let startTime, aiTime=300;
+
+function startGame(){ setTimeout(changeColor, Math.random()*2000+1000); info.textContent='Wait for green...'; }
+
+function changeColor(){
+    box.style.backgroundColor='green';
+    startTime=Date.now();
+    info.textContent='Click now!';
+}
+
+box.onclick=function(){
+    let reaction=Date.now()-startTime;
+    alert("Your reaction: "+reaction+"ms | AI reaction: "+aiTime+"ms");
+    box.style.backgroundColor='red';
+    setTimeout(startGame,500);
+}
+startGame();
+</script>
+</body>
+</html>

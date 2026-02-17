@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Typing Challenge</title>
+<style>
+body{ text-align:center; font-family:Arial; margin:0; background-image:url('https://wallpaperaccess.com/full/3175017.jpg'); background-size:cover; color:white; }
+h1{ text-shadow:2px 2px #000; margin-top:20px;}
+#sentence{ font-size:22px; margin:20px; }
+input{ font-size:20px; padding:5px; width:400px; }
+button{ margin:10px; padding:10px 20px; font-size:16px; border-radius:8px; cursor:pointer; }
+#score{ margin-top:10px; }
+</style>
+</head>
+<body>
+<h1>Typing Challenge</h1>
+<p id="sentence"></p>
+<input type="text" id="input" placeholder="Type here...">
+<p id="score"></p>
+<button onclick="startGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+const sentences=[
+"The quick brown fox jumps over the lazy dog",
+"Typing improves your brain speed",
+"GBASIMET games are fun",
+"Practice makes perfect",
+"Challenge yourself every day",
+"Learning is fun with games",
+"Focus is key to success",
+"Extreme typing test ahead",
+"Speed and accuracy are important",
+"Try to beat your own record",
+"More sentences make it challenging",
+"Keep typing to improve",
+"Concentration is required",
+"Accuracy counts more than speed",
+"Never give up when typing"
+];
+
+let index=0, totalTime=0, startTime;
+
+function startGame(){ index=0; totalTime=0; nextSentence(); }
+
+function nextSentence(){
+    if(index>=sentences.length){
+        alert("Game Over! Total time: "+(totalTime/1000).toFixed(2)+" seconds");
+        return;
+    }
+    document.getElementById('sentence').textContent=sentences[index];
+    document.getElementById('input').value='';
+    document.getElementById('input').focus();
+    startTime=Date.now();
+    document.getElementById('score').textContent=`Sentence ${index+1}/${sentences.length}`;
+}
+
+document.getElementById('input').addEventListener('keydown', e=>{
+    if(e.key==='Enter'){
+        let typed=document.getElementById('input').value.trim();
+        if(typed===sentences[index]){
+            totalTime+=Date.now()-startTime;
+            index++;
+            nextSentence();
+        } else { alert("Incorrect, try again!"); }
+    }
+});
+startGame();
+</script>
+</body>
+</html>

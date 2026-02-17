@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>X & O - Unbeatable AI</title>
+<style>
+body{font-family:Arial;text-align:center;margin:0;background-image:url('https://wallpaperaccess.com/full/3175017.jpg');background-size:cover;color:white;}
+table{margin:auto;border-collapse:collapse;margin-top:30px;}
+td{width:100px;height:100px;font-size:48px;text-align:center;vertical-align:middle;border:3px solid white;cursor:pointer;}
+button{margin:10px;padding:10px 20px;font-size:16px;border-radius:8px;cursor:pointer;}
+h1{text-shadow:2px 2px #000;margin-top:20px;}
+</style>
+</head>
+<body>
+<h1>X & O - Unbeatable AI</h1>
+<table id="board">
+<tr><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td></tr>
+</table>
+<p id="result"></p>
+<button onclick="resetGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+let board = Array(9).fill('');
+let human='X', ai='O';
+const cells = document.querySelectorAll('td');
+const result = document.getElementById('result');
+
+function resetGame(){
+    board = Array(9).fill('');
+    cells.forEach(c=>c.textContent='');
+    result.textContent='';
+    cells.forEach((c,i)=>c.onclick = () => humanMove(i));
+}
+resetGame();
+
+function humanMove(i){
+    if(board[i]==='' && !checkWinner(board)){
+        board[i] = human;
+        render();
+        let winner = checkWinner(board);
+        if(winner) return endGame(winner);
+        let move = bestMove();
+        if(move !== undefined){ board[move] = ai; render(); }
+        winner = checkWinner(board);
+        if(winner) endGame(winner);
+    }
+}
+
+function render(){
+    cells.forEach((c,i)=>c.textContent=board[i]);
+}
+
+function checkWinner(b){
+    const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    for(const [a,b1,c] of lines){ if(b[a] && b[a]===b[b1] && b[a]===b[c]) return b[a]; }
+    if(b.every(cell=>cell)) return 'tie';
+    return null;
+}
+
+function endGame(winner){
+    if(winner==='tie') result.textContent="It's a tie!";
+    else result.textContent=winner+" wins!";
+}
+
+// Minimax AI – unbeatable
+function bestMove(){
+    let bestScore = -Infinity, move;
+    for(let i=0;i<9;i++){
+        if(!board[i]){
+            board[i]=ai;
+            let score=minimax(board,0,false);
+            board[i]='';
+            if(score>bestScore){ bestScore=score; move=i; }
+        }
+    }
+    return move;
+}
+
+function minimax(b,depth,isMax){
+    let winner = checkWinner(b);
+    if(winner !== null){
+        if(winner===ai) return 10-depth;
+        else if(winner===human) return depth-10;
+        else return 0;
+    }
+    if(isMax){
+        let best=-Infinity;
+        for(let i=0;i<9;i++){
+            if(!b[i]){ b[i]=ai; best=Math.max(best,minimax(b,depth+1,false)); b[i]=''; }
+        }
+        return best;
+    }else{
+        let best=Infinity;
+        for(let i=0;i<9;i++){
+            if(!b[i]){ b[i]=human; best=Math.min(best,minimax(b,depth+1,true)); b[i]=''; }
+        }
+        return best;
+    }
+}
+</script>
+</body>
+</html>

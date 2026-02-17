@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2048 - GBASIMET</title>
+<style>
+body { text-align:center; margin:0; font-family:Arial; background-image:url('https://wallpaperaccess.com/full/3175017.jpg'); background-size:cover; color:white;}
+h1 { margin-top:20px; text-shadow:2px 2px #000;}
+canvas { background:black; display:block; margin:20px auto; }
+button { margin:10px; padding:10px 20px; font-size:16px; border-radius:8px; cursor:pointer;}
+</style>
+</head>
+<body>
+<h1>2048</h1>
+<canvas id="canvas" width="400" height="400"></canvas>
+<p id="score">Score: 0</p>
+<button onclick="startGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+const canvas=document.getElementById('canvas'), ctx=canvas.getContext('2d');
+let grid=[], score=0;
+const size=4, tileSize=100;
+function startGame(){
+    grid=Array.from({length:size},()=>Array(size).fill(0));
+    score=0; document.getElementById('score').textContent='Score: 0';
+    addTile(); addTile(); drawGrid();
+}
+function addTile(){
+    let empty=[];
+    for(let y=0;y<size;y++) for(let x=0;x<size;x++) if(grid[y][x]===0) empty.push({x,y});
+    if(empty.length>0){
+        const {x,y}=empty[Math.floor(Math.random()*empty.length)];
+        grid[y][x]=Math.random()<0.9?2:4;
+    }
+}
+function drawGrid(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let y=0;y<size;y++){
+        for(let x=0;x<size;x++){
+            ctx.fillStyle=grid[y][x]? 'orange':'gray';
+            ctx.fillRect(x*tileSize,y*tileSize,tileSize-5,tileSize-5);
+            if(grid[y][x]){ ctx.fillStyle='white'; ctx.font='40px Arial'; ctx.fillText(grid[y][x],x*tileSize+30,y*tileSize+60); }
+        }
+    }
+}
+document.addEventListener('keydown',e=>{
+    let moved=false;
+    if(e.key==='ArrowLeft') moved=slideLeft();
+    else if(e.key==='ArrowRight') moved=slideRight();
+    else if(e.key==='ArrowUp') moved=slideUp();
+    else if(e.key==='ArrowDown') moved=slideDown();
+    if(moved){ addTile(); drawGrid(); checkGameOver(); }
+});
+function slideLeft(){
+    let moved=false;
+    for(let y=0;y<size;y++){
+        let row=grid[y].filter(v=>v); 
+        for(let i=0;i<row.length-1;i++) if(row[i]===row[i+1]){ row[i]*=2; score+=row[i]; row[i+1]=0; }
+        row=row.filter(v=>v); while(row.length<size) row.push(0); 
+        if(!arraysEqual(grid[y],row)){ grid[y]=row; moved=true; }
+    }
+    document.getElementById('score').textContent='Score: '+score;
+    return moved;
+}
+function slideRight(){ reverseGrid(); let moved=slideLeft(); reverseGrid(); return moved; }
+function slideUp(){ transposeGrid(); let moved=slideLeft(); transposeGrid(); return moved; }
+function slideDown(){ transposeGrid(); let moved=slideRight(); transposeGrid(); return moved; }
+
+function reverseGrid(){ for(let y=0;y<size;y++) grid[y]=grid[y].slice().reverse(); }
+function transposeGrid(){ grid=grid[0].map((_,i)=>grid.map(row=>row[i])); }
+function arraysEqual(a,b){ return a.every((v,i)=>v===b[i]); }
+function checkGameOver(){
+    if(grid.flat().every(v=>v!==0) && !canMove()){ alert('Game Over! Score: '+score); }
+}
+function canMove(){ for(let y=0;y<size;y++) for(let x=0;x<size;x++){ if(x<size-1 && grid[y][x]===grid[y][x+1]) return true; if(y<size-1 && grid[y][x]===grid[y+1][x]) return true; } return false; }
+startGame();
+</script>
+</body>
+</html>

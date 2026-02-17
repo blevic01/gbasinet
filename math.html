@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Math Challenge - GBASIMET</title>
+<style>
+body {
+    text-align:center;
+    font-family:Arial;
+    margin:0;
+    background-image:url('https://wallpaperaccess.com/full/3175017.jpg');
+    background-size:cover;
+    color:white;
+}
+h1 {
+    text-shadow:2px 2px #000;
+    margin-top:20px;
+}
+input {
+    font-size:18px;
+    padding:5px;
+    width:200px;
+}
+button {
+    margin:10px;
+    padding:10px 20px;
+    font-size:16px;
+    border-radius:8px;
+    cursor:pointer;
+}
+#score {
+    margin-top:10px;
+}
+</style>
+</head>
+<body>
+<h1>Math Challenge</h1>
+<div id="math"></div>
+<p id="score"></p>
+<button onclick="startGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+let score=0, questionCount=0, maxQuestions=20;
+let currentAnswer;
+
+function startGame(){
+    score=0;
+    questionCount=0;
+    nextQuestion();
+}
+
+function nextQuestion(){
+    if(questionCount >= maxQuestions){
+        alert("Math Challenge Over! Score: " + score + "/" + maxQuestions);
+        return;
+    }
+
+    const types=['add','sub','mul','div','mixed'];
+    const type = types[Math.floor(Math.random()*types.length)];
+
+    let num1=Math.floor(Math.random()*50)+1;
+    let num2=Math.floor(Math.random()*50)+1;
+
+    let question="";
+    switch(type){
+        case 'add':
+            currentAnswer = num1 + num2;
+            question = `${num1} + ${num2} = ?`;
+            break;
+        case 'sub':
+            if(num2 > num1) [num1,num2] = [num2,num1]; // avoid negative
+            currentAnswer = num1 - num2;
+            question = `${num1} - ${num2} = ?`;
+            break;
+        case 'mul':
+            num1 = Math.floor(Math.random()*12)+1;
+            num2 = Math.floor(Math.random()*12)+1;
+            currentAnswer = num1 * num2;
+            question = `${num1} × ${num2} = ?`;
+            break;
+        case 'div':
+            num2 = Math.floor(Math.random()*12)+1;
+            currentAnswer = num1;
+            num1 = num1 * num2;
+            question = `${num1} ÷ ${num2} = ?`;
+            break;
+        case 'mixed':
+            let a=Math.floor(Math.random()*20)+1;
+            let b=Math.floor(Math.random()*20)+1;
+            let c=Math.floor(Math.random()*10)+1;
+            currentAnswer = a + b * c;
+            question = `${a} + ${b} × ${c} = ?`;
+            break;
+    }
+
+    document.getElementById('math').innerHTML = `
+        <p>${question}</p>
+        <input type="text" id="answer" placeholder="Type your answer">
+        <button onclick="submitAnswer()">Submit</button>
+    `;
+    document.getElementById('score').textContent=`Score: ${score} | Question ${questionCount+1}/${maxQuestions}`;
+    document.getElementById('answer').focus();
+}
+
+function submitAnswer(){
+    let ans = document.getElementById('answer').value.trim();
+    if(parseInt(ans) === currentAnswer) score++;
+    questionCount++;
+    nextQuestion();
+}
+
+startGame();
+</script>
+</body>
+</html>

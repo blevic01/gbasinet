@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Challenge</title>
+<style>
+body{ text-align:center; font-family:Arial; margin:0; background-image:url('https://wallpaperaccess.com/full/3175017.jpg'); background-size:cover; color:white; }
+h1{ text-shadow:2px 2px #000; margin-top:20px;}
+input{ padding:5px; font-size:16px; }
+button{ margin:10px; padding:10px 20px; font-size:16px; border-radius:8px; cursor:pointer; }
+#score{ margin-top:10px; }
+</style>
+</head>
+<body>
+<h1>Quiz Challenge</h1>
+<div id="quiz"></div>
+<p id="score"></p>
+<button onclick="startGame()">Restart</button>
+<button onclick="window.location.href='games.html'">Back to Games</button>
+
+<script>
+const questions=[
+{q:"2 + 2 = ?", a:"4"},
+{q:"Capital of France?", a:"Paris"},
+{q:"5 * 3 = ?", a:"15"},
+{q:"10 - 7 = ?", a:"3"},
+{q:"Largest planet in the solar system?", a:"Jupiter"},
+{q:"Square root of 64?", a:"8"},
+{q:"HTML stands for?", a:"HyperText Markup Language"},
+{q:"Fastest land animal?", a:"Cheetah"},
+{q:"Water freezes at (°C)?", a:"0"},
+{q:"3 + 6 * 2 = ?", a:"15"},
+{q:"Who wrote Hamlet?", a:"Shakespeare"},
+{q:"Sun rises in the?", a:"East"},
+{q:"5 + 9 - 3 = ?", a:"11"}
+];
+
+let index=0, score=0;
+
+function startGame(){ index=0; score=0; nextQuestion(); }
+
+function nextQuestion(){
+    if(index>=questions.length){
+        alert("Quiz Over! Score: "+score+"/"+questions.length);
+        return;
+    }
+    const q=questions[index];
+    document.getElementById('quiz').innerHTML=`<p>${q.q}</p>
+    <input type="text" id="answer" placeholder="Type answer">
+    <button onclick="submitAnswer()">Submit</button>`;
+    document.getElementById('score').textContent=`Score: ${score}`;
+    document.getElementById('answer').focus();
+}
+
+function submitAnswer(){
+    const ans=document.getElementById('answer').value.trim();
+    if(ans.toLowerCase()===questions[index].a.toLowerCase()) score++;
+    index++;
+    nextQuestion();
+}
+
+startGame();
+</script>
+</body>
+</html>

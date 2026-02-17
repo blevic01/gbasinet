@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GBASINET Dictionary</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    text-align:center;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color:white;
+    transition:0.3s;
+}
+
+body.light{
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    color:black;
+}
+
+h1{
+    margin-top:60px;
+}
+
+input{
+    padding:12px;
+    width:300px;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+}
+
+button{
+    margin:10px;
+    padding:12px 25px;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.nav-btn{
+    background:#ff9800;
+    color:white;
+}
+
+.search-btn{
+    background:#4CAF50;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<h1>GBASINET Dictionary</h1>
+
+<input type="text" id="query" placeholder="Search a word...">
+<br>
+<button class="search-btn" onclick="searchWord()">Search</button>
+
+<br><br>
+
+<button class="nav-btn" onclick="goToGames()">🎮 Games</button>
+<button class="nav-btn" onclick="goToCalculator()">🧮 Calculator</button>
+
+<br><br>
+
+<button onclick="toggleTheme()">🌙 Toggle Dark / Light</button>
+
+<script>
+
+function searchWord(){
+    let word = document.getElementById("query").value.trim();
+    if(word !== ""){
+        window.location.href = "search.html?word=" + encodeURIComponent(word);
+    }else{
+        alert("Please type a word first!");
+    }
+}
+
+function goToGames(){
+    window.location.href = "games.html";
+}
+
+function goToCalculator(){
+    window.location.href = "calculator.html";
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("light");
+}
+
+</script>
+
+</body>
+</html>
